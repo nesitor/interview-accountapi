@@ -7,12 +7,13 @@ import (
 	"github.com/nesitor/interview-accountapi-form3/pkg/http"
 	"github.com/nesitor/interview-accountapi-form3/pkg/models"
 	"log"
+	"os"
 )
 
 func main() {
 
 	configuration := config.Configuration{
-		BaseUrl: "http://localhost:8080",
+		BaseUrl: os.Getenv("SERVER_URL"),
 	}
 
 	repository := http.NewAccountsRepository(configuration)
