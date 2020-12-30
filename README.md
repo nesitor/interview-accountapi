@@ -1,4 +1,4 @@
-# Form3 Take Home Exercise
+# Andrés Díaz Take Home Exercise
 
 ## Instructions
 The goal of this exercise is to write a client library in Go to access our fake account API, which is provided as a Docker
