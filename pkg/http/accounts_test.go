@@ -42,7 +42,7 @@ func TestAccountsRepository_Get_Ok(t *testing.T) {
 func TestAccountsRepository_Get_Error(t *testing.T) {
 	repository := newRepository()
 
-	_, err := repository.Get("")
+	_, err := repository.Get("not_existing")
 	assert.Error(t, err)
 }
 
