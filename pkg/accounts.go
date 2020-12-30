@@ -17,8 +17,8 @@ func (acc *Accounts) List(page int, size int) ([]*models.Account, error) {
 	return acc.repository.List(page, size)
 }
 
-func (acc *Accounts) Create(account interface{}) (*models.Account, error) {
-	return acc.repository.Create(account)
+func (acc *Accounts) Create(newAccount *models.Account) (*models.Account, error) {
+	return acc.repository.Create(newAccount)
 }
 
 func (acc *Accounts) Delete(id string, version int) error {

@@ -51,12 +51,12 @@ func (ar *AccountsRepository) List(page int, size int) ([]*models.Account, error
 	return account, nil
 }
 
-func (ar *AccountsRepository) Create(body interface{}) (*models.Account, error) {
+func (ar *AccountsRepository) Create(newAccount *models.Account) (*models.Account, error) {
 	var account *models.Account
 	entireUrl := ar.configuration.BaseUrl + ar.basePath
 
 	request := http.NewRequest()
-	response, err := request.Post(entireUrl, body)
+	response, err := request.Post(entireUrl, newAccount)
 	if err != nil {
 		return account, err
 	}

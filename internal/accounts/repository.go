@@ -7,6 +7,6 @@ import (
 type Repository interface {
 	Get(id string) (*models.Account, error)
 	List(page int, size int) ([]*models.Account, error)
-	Create(account interface{}) (*models.Account, error)
+	Create(newAccount *models.Account) (*models.Account, error)
 	Delete(id string, version int) error
 }
