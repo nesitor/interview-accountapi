@@ -25,7 +25,3 @@ type AccountAttributes struct {
 	Switched                bool     `json:"switched"`
 	Status                  string   `json:"status"`
 }
-
-func NewAccount() *Account {
-	return &Account{}
-}

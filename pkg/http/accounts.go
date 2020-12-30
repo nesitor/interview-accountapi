@@ -8,16 +8,16 @@ import (
 	"strconv"
 )
 
-type AccountsRepository struct {
+type accountsRepository struct {
 	configuration config.Configuration
 	basePath      string
 }
 
-func (ar *AccountsRepository) Get(id string) (*models.Account, error) {
+func (ar *accountsRepository) Get(id string) (*models.Account, error) {
 	var account *models.Account
 	entireUrl := ar.configuration.BaseUrl + ar.basePath + "/" + id
 
-	request := http.NewRequest()
+	request := http.NewClient()
 	response, err := request.Get(entireUrl)
 	if err != nil {
 		return account, err
@@ -32,11 +32,11 @@ func (ar *AccountsRepository) Get(id string) (*models.Account, error) {
 	return account, nil
 }
 
-func (ar *AccountsRepository) List(page int, size int) ([]*models.Account, error) {
+func (ar *accountsRepository) List(page int, size int) ([]*models.Account, error) {
 	account := make([]*models.Account, 0, size)
 	entireUrl := ar.configuration.BaseUrl + ar.basePath + "?page[number]=" + strconv.Itoa(page) + "&page[size]=" + strconv.Itoa(size)
 
-	request := http.NewRequest()
+	request := http.NewClient()
 	response, err := request.Get(entireUrl)
 	if err != nil {
 		return account, err
@@ -51,11 +51,11 @@ func (ar *AccountsRepository) List(page int, size int) ([]*models.Account, error
 	return account, nil
 }
 
-func (ar *AccountsRepository) Create(newAccount *models.Account) (*models.Account, error) {
+func (ar *accountsRepository) Create(newAccount *models.Account) (*models.Account, error) {
 	var account *models.Account
 	entireUrl := ar.configuration.BaseUrl + ar.basePath
 
-	request := http.NewRequest()
+	request := http.NewClient()
 	response, err := request.Post(entireUrl, newAccount)
 	if err != nil {
 		return account, err
@@ -70,10 +70,10 @@ func (ar *AccountsRepository) Create(newAccount *models.Account) (*models.Accoun
 	return account, nil
 }
 
-func (ar *AccountsRepository) Delete(id string, version int) error {
+func (ar *accountsRepository) Delete(id string, version int) error {
 	entireUrl := ar.configuration.BaseUrl + ar.basePath + "/" + id + "?version=" + strconv.Itoa(version)
 
-	request := http.NewRequest()
+	request := http.NewClient()
 	err := request.Delete(entireUrl)
 	if err != nil {
 		return err
@@ -82,8 +82,9 @@ func (ar *AccountsRepository) Delete(id string, version int) error {
 	return nil
 }
 
-func NewAccountsRepository(configuration config.Configuration) *AccountsRepository {
-	return &AccountsRepository{
+func NewAccountsRepository(configuration config.Configuration) *accountsRepository {
+	return &accountsRepository{
 		configuration: configuration,
+		basePath:      "/accounts",
 	}
 }

@@ -8,9 +8,9 @@ import (
 	"net/http"
 )
 
-type Request struct{}
+type Client struct{}
 
-func (r *Request) Get(url string) (string, error) {
+func (r *Client) Get(url string) (string, error) {
 	response, err := http.Get(url)
 	if err != nil {
 		log.Fatalln(err)
@@ -26,7 +26,7 @@ func (r *Request) Get(url string) (string, error) {
 	return body, nil
 }
 
-func (r *Request) Post(url string, body interface{}) (string, error) {
+func (r *Client) Post(url string, body interface{}) (string, error) {
 	jsonBody, err := json.Marshal(body)
 	if err != nil {
 		log.Fatalln(err)
@@ -48,7 +48,7 @@ func (r *Request) Post(url string, body interface{}) (string, error) {
 	return parsedBody, nil
 }
 
-func (r *Request) Delete(url string) error {
+func (r *Client) Delete(url string) error {
 	client := &http.Client{}
 	request, err := http.NewRequest("DELETE", url, nil)
 	if err != nil {
@@ -76,6 +76,6 @@ func parseBody(response *http.Response) (string, error) {
 	return string(body), nil
 }
 
-func NewRequest() *Request {
-	return &Request{}
+func NewClient() *Client {
+	return &Client{}
 }
