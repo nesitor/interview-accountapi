@@ -39,11 +39,75 @@ func TestAccountsRepository_Get_Ok(t *testing.T) {
 	assert.Equal(t, expected, account)
 }
 
-func TestAccountsRepository_Get_Error(t *testing.T) {
+func TestAccountsRepository_List_Ok(t *testing.T) {
 	repository := newRepository()
 
-	_, err := repository.Get("not_existing")
-	assert.Error(t, err)
+	account := models.Account{
+		Id:             "",
+		OrganizationId: "",
+		Attributes: models.AccountAttributes{
+			Country:                 "",
+			BaseCurrency:            "",
+			BankId:                  0,
+			BankIdCode:              "",
+			AccountNumber:           "",
+			Bic:                     "",
+			Iban:                    "",
+			CustomerId:              0,
+			Name:                    nil,
+			AlternativeNames:        nil,
+			AccountClassification:   "",
+			JointAccount:            false,
+			AccountMatchingOptOut:   false,
+			SecondaryIdentification: "",
+			Switched:                false,
+			Status:                  "",
+		},
+	}
+	expected := make([]*models.Account, 1)
+	expected = append(expected, &account)
+
+	accounts, err := repository.List(1, 1)
+	assert.NoError(t, err)
+	assert.Equal(t, expected, accounts)
+}
+
+func TestAccountsRepository_Create_Ok(t *testing.T) {
+	repository := newRepository()
+
+	account := models.Account{
+		Id:             "",
+		OrganizationId: "",
+		Attributes: models.AccountAttributes{
+			Country:                 "",
+			BaseCurrency:            "",
+			BankId:                  0,
+			BankIdCode:              "",
+			AccountNumber:           "",
+			Bic:                     "",
+			Iban:                    "",
+			CustomerId:              0,
+			Name:                    nil,
+			AlternativeNames:        nil,
+			AccountClassification:   "",
+			JointAccount:            false,
+			AccountMatchingOptOut:   false,
+			SecondaryIdentification: "",
+			Switched:                false,
+			Status:                  "",
+		},
+	}
+
+	received, err := repository.Create(&account)
+	assert.NoError(t, err)
+	assert.Equal(t, account, received)
+}
+
+func TestAccountsRepository_Delete_Ok(t *testing.T) {
+	repository := newRepository()
+
+	err := repository.Delete("", 1)
+	assert.NoError(t, err)
 }
 
 func newRepository() *accountsRepository {
