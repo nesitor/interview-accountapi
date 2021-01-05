@@ -69,7 +69,7 @@ func TestAccountsRepository_List_Ok(t *testing.T) {
 	expected := make([]*models.Account, 1)
 	expected[0] = account
 
-	accounts, err := repository.List(2, 1)
+	accounts, err := repository.List(0, 1)
 	assert.NoError(t, err)
 	assert.Equal(t, expected, accounts)
 }
