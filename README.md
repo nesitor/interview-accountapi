@@ -1,5 +1,10 @@
 # Andrés Díaz Take Home Exercise
 
+## Technical decisions
+- I have implemented the needed `accounts` client library and I tried to make it decoupled from the HTTP implementation.
+- As you can see on the project structure, someone that needs to use my library can use the model `account` and also use the desired implementation as the HTTP implementation that is already exported.
+- I also implemented a repository interface to fix the contract and allow the library to use another implementation that fits with this interface.
+
 ## Instructions
 The goal of this exercise is to write a client library in Go to access our fake account API, which is provided as a Docker
 container in the file `docker-compose.yaml` of this repository. Please refer to the
