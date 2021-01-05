@@ -2,6 +2,7 @@ package http
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/nesitor/interview-accountapi-form3/internal/http"
 	"github.com/nesitor/interview-accountapi-form3/pkg/config"
 	"github.com/nesitor/interview-accountapi-form3/pkg/models"
@@ -14,60 +15,58 @@ type accountsRepository struct {
 }
 
 func (ar *accountsRepository) Get(id string) (*models.Account, error) {
-	var account *models.Account
+	account := DataObjectStructure{}
 	entireUrl := ar.configuration.BaseUrl + ar.basePath + "/" + id
 
 	request := http.NewClient()
 	response, err := request.Get(entireUrl)
 	if err != nil {
-		return account, err
+		return account.Data, err
 	}
 
-	model, _ := json.Marshal(response)
-	err = json.Unmarshal(model, &account)
+	err = json.Unmarshal([]byte(response), &account)
 	if err != nil {
-		return account, err
+		return account.Data, err
 	}
 
-	return account, nil
+	return account.Data, nil
 }
 
 func (ar *accountsRepository) List(page int, size int) ([]*models.Account, error) {
-	account := make([]*models.Account, 0, size)
+	accounts := DataListStructure{}
 	entireUrl := ar.configuration.BaseUrl + ar.basePath + "?page[number]=" + strconv.Itoa(page) + "&page[size]=" + strconv.Itoa(size)
 
 	request := http.NewClient()
 	response, err := request.Get(entireUrl)
 	if err != nil {
-		return account, err
+		return accounts.Data, err
 	}
-
-	model, _ := json.Marshal(response)
-	err = json.Unmarshal(model, &account)
+	fmt.Println(response)
+	err = json.Unmarshal([]byte(response), &accounts)
 	if err != nil {
-		return account, err
+		return accounts.Data, err
 	}
 
-	return account, nil
+	return accounts.Data, nil
 }
 
 func (ar *accountsRepository) Create(newAccount *models.Account) (*models.Account, error) {
-	var account *models.Account
+	account := DataObjectStructure{}
+	newData := DataObjectStructure{Data: newAccount}
 	entireUrl := ar.configuration.BaseUrl + ar.basePath
 
 	request := http.NewClient()
-	response, err := request.Post(entireUrl, newAccount)
+	response, err := request.Post(entireUrl, newData)
 	if err != nil {
-		return account, err
+		return account.Data, err
 	}
 
-	model, _ := json.Marshal(response)
-	err = json.Unmarshal(model, &account)
+	err = json.Unmarshal([]byte(response), &account)
 	if err != nil {
-		return account, err
+		return account.Data, err
 	}
 
-	return account, nil
+	return account.Data, nil
 }
 
 func (ar *accountsRepository) Delete(id string, version int) error {
